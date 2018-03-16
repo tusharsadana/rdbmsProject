@@ -8,8 +8,27 @@
       <title>
          Welcome to The Swirlfeed
       </title>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+      <script src="assets/js/register.js"></script>
+
+      <link rel="stylesheet" type="text/css" href="assets/css/register_style.css">
    </head>
    <body>
+     <?php
+     if(isset($_POST['register_button'])){
+       echo '
+       <script>
+       $(document).ready(function(){
+         $("#first").hide();
+         $("#second").show();
+       });
+       </script>
+       ';
+     }
+
+      ?>
+<div id="first">
+
 
      <form class="" action="register.php" method="post">
 
@@ -21,7 +40,7 @@
        ><br>
        <input type="password" name="log_password" placeholder="Password"><br>
        <input type="submit" name="login_button" value="Login"><br>
-
+       <a href="#" id="signup">Need an account? Register Here</a>
        <?php
        if(in_array("Email or Password was incorrect <br>", $error_array))
        {
@@ -30,7 +49,11 @@
         ?>
 
      </form>
+     </div>
      <br>
+     <div id="second">
+
+
       <form action="register.php" method="POST">
          <input type="text" name="reg_fname" placeholder="First Name"
          value="<?php if(isset($_SESSION['reg_fname'])){
@@ -99,11 +122,14 @@
              ?>
          <input type="submit" name="register_button" value="Register">
          <br>
+         <a href="#" id="signin">Already have an account? Login Here</a>
+
          <?php
            if(in_array("<span> You're all set! Go Ahead and Login! </span><br>", $error_array))
              echo "<span> You're all set! Go Ahead and Login! </span><br>";
 
           ?>
       </form>
+           </div>
    </body>
 </html>
