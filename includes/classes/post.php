@@ -4,7 +4,7 @@ class Post{
   private $con;
   public function __construct($con, $user){
     $this->con = $con;
-    $this->$user_obj = new User($con, $user)
+    $this->user_obj = new User($con, $user);
   }
 
   public function submitPost($body, $user_to){
@@ -30,7 +30,9 @@ class Post{
         //Insert notification
 
         //Update post count for users
-
+        $num_posts = $this->user_obj->getNumPosts();
+        $num_posts++;
+        $update_query = mysqli_query($this->con,"UPDATE users set num_posts='$num_posts' where username='$added_by'");
 
     }
 

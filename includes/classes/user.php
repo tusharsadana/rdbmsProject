@@ -7,7 +7,7 @@ class User{
     $user_details_query = mysqli_query($con, "SELECT * from users where username='$user'");
     $this->user = mysqli_fetch_array($user_details_query);
   }
-  public function getUsrname()
+  public function getUsername()
   {
     return $this->user['username'];
   }

@@ -60,7 +60,7 @@ else{
   <a href="#"><i class="fas fa-bell fa-2x"></i></a>
   <a href="#"><i class="fas fa-users fa-2x"></i></a>
   <a href="#"><i class="fas fa-cog fa-2x"></i></a>
-  <a href="#"><i class="fas fa-sign-out-alt fa-2x"></i></a>
+  <a href="includes/handlers/logout.php"><i class="fas fa-sign-out-alt fa-2x"></i></a>
 
 </nav>
    </div>
