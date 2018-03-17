@@ -123,9 +123,9 @@ if(isset($_POST['register_button']))
          //Profile Picture
          $rand = rand(1,2);
          if($rand == 1)
-         $profile_pic = "assets/profile_pics/defaults/1.png";
+         $profile_pic = "assets/images/profile_pics/defaults/1.png";
          elseif ($rand == 2) {
-           $profile_pic = "assets/profile_pics/defaults/2.png";
+           $profile_pic = "assets/images/profile_pics/defaults/2.png";
          }
 
          $query = mysqli_query($con,"INSERT into users values('','$fname','$lname','$username','$em','$password','$date','$profile_pic','0', '0', 'no',',')");

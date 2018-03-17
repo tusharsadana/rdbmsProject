@@ -19,6 +19,7 @@ form {
 body{
 	margin: 0;
 	padding: 0;
+
 }
 
 a {
@@ -97,7 +98,3 @@ input[type="text"]:hover, input[type="email"]:hover, input[type="password"]:hove
 #second {
 	display: none;
 }
-
-
-
-
