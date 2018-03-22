@@ -40,11 +40,24 @@ class Post{
 
 
 
-public function loadPostsFriends()
+public function loadPostsFriends($data, $limit)
 {
+  $page = $data['page'];
+  $userLoggedIn = $this->user_obj->getUsername();
+  if($page==1)
+    $start = 0;
+  else {
+    $start = ($page - 1) * $limit;
+  }
   $str= "";
-  $data = mysqli_query($this->con, "SELECT * from posts where deleted='no' order by id desc");
-  while ($row = mysqli_fetch_array($data)) {
+  $data_query = mysqli_query($this->con, "SELECT * from posts where deleted='no' order by id desc");
+
+  if(mysqli_num_rows($data_query)){
+
+    $num_iterations = 0;
+    $count =1;
+
+  while ($row = mysqli_fetch_array($data_query)) {
     $id = $row['id'];
     $body = $row['body'];
     $added_by = $row['added_by'];
@@ -65,6 +78,19 @@ public function loadPostsFriends()
     if($added_by_obj->isClosed()){
       continue;
     }
+    if($num_iterations++ < $start){
+      continue;
+    }
+
+    //Once 10 posts have been loaded, break
+
+    if($count > $limit){
+      break;
+    }
+    else {
+
+      $count++ ;
+    }
 
     $user_details_query = mysqli_query($this->con, "SELECT first_name, last_name, profile_pic from users where username='$added_by'");
     $user_row = mysqli_fetch_array($user_details_query);
@@ -83,28 +109,28 @@ public function loadPostsFriends()
     if($interval->y >= 1)
     {
       if($interval == 1){
-        $time_message = $interval->y . "year ago";
+        $time_message = $interval->y . " year ago";
       }
       else{
-        $time_message = $interval->y . "years ago";
+        $time_message = $interval->y . " years ago";
       }
     }
     else if($interval->m >= 1){
       if($interval->d == 0)
       $days = "ago";
       elseif($interval->d == 1){
-        $days = $interval->d . "day ago";
+        $days = $interval->d . " day ago";
       }
       else {
-        $days = $interval->d . "days ago";
+        $days = $interval->d . " days ago";
       }
 
 
       if($interval->m == 1){
-        $time_message = $interval->m . "month" . $days;
+        $time_message = $interval->m . " month" . $days;
       }
       else{
-        $time_message = $interval->m . "months" . $days;
+        $time_message = $interval->m . " months" . $days;
       }
 
   }
@@ -113,25 +139,25 @@ public function loadPostsFriends()
       $time_message = "yesterday";
     }
     else {
-      $time_message = $interval->d . "days ago";
+      $time_message = $interval->d . " days ago";
     }
   }
   elseif ($interval->h >= 1) {
     if($interval->h >=1){
-      $time_message = $interval->h . "hour ago";
+      $time_message = $interval->h . " hour ago";
     }
     else {
-      $time_message = $interval->h . "hours ago";
+      $time_message = $interval->h . " hours ago";
 
     }
 
   }
   elseif ($interval->i >= 1) {
-    if($interval->i >=1){
-      $time_message = $interval->i . "minute ago";
+    if($interval->i ==1){
+      $time_message = $interval->i . " minute ago";
     }
     else {
-      $time_message = $interval->i . "minutes ago";
+      $time_message = $interval->i . " minutes ago";
 
     }
 
@@ -141,7 +167,7 @@ public function loadPostsFriends()
       $time_message = "Just now";
     }
     else {
-      $time_message = $interval->s . "seconds ago";
+      $time_message = $interval->s . " seconds ago";
 
     }
 
@@ -151,17 +177,23 @@ public function loadPostsFriends()
   <div class='post_profile_pic'>
   <img src='$profile_pic' width='50'>
   </div>
+<div class='total'>
   <div class='posted_by' style='color:#ACACAC;'>
-  <a href='added_by'>$first_name $last_name </a> $user_to &nbsp;
-  <div style='float:right;'>$time_message
+  <a href='added_by'>$first_name $last_name </a> $user_to &nbsp;<br>
+
   </div>
-  </div>
+  <br>
+
   <div id='post_body'>
   $body
   <br>
   </div>
   </div>
-  ";
+  <div style='float:right;color:#bdc3c7'>$time_message
+  </div>
+  </div>
+  <hr>";
+}
 }
 
 echo $str;
